@@ -8,6 +8,18 @@ var express = require('express'),
 
 var port = process.env.PORT || 4000;
 
+
+app.use(cookieParser());
+app.use(express.urlencoded());
+app.use(express.static(__dirname + '/views'));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.resolve(__dirname + '/views/index.html'));
+});
+
+
+if (require.main === module){
+
 io.on('connection', function (socket) {
 
   socket.emit('message', { text : 'Welcome!' });
@@ -63,15 +75,11 @@ function collectVotesFromResult(result) {
   return votes;
 }
 
-app.use(cookieParser());
-app.use(express.urlencoded());
-app.use(express.static(__dirname + '/views'));
-
-app.get('/', function (req, res) {
-  res.sendFile(path.resolve(__dirname + '/views/index.html'));
-});
 
 server.listen(port, function () {
   var port = server.address().port;
   console.log('App running on port ' + port);
 });
+}else {
+  module.exports = app;
+}
