@@ -14,6 +14,7 @@ exports.config = {
     Puppeteer: {
       url: 'http://localhost:8080',
       show: false,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     }
   },
   include: {
