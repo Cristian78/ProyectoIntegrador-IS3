@@ -101,11 +101,8 @@ jobs:
       - name: Instalar Railway CLI
         run: curl -sSL https://railway.app/install.sh | sh
 
-      - name: Login Railway con token
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway login --apiKey $RAILWAY_TOKEN
+      - name: Configurar token Railway
+        run: echo "RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}" >> $GITHUB_ENV
 
       - name: Desplegar servicios en Railway
-        run: |
-          railway up --detach
+        run: railway up --detach
