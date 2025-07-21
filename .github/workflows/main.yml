@@ -106,5 +106,4 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
         run: |
-          railway use $RAILWAY_PROJECT_ID
-          railway up --detach
+          railway up --project $RAILWAY_PROJECT_ID --detach
