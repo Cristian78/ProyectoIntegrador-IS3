@@ -104,10 +104,7 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Linkear proyecto Railway automáticamente
-        run: railway link $RAILWAY_PROJECT_ID
-
-      - name: Desplegar Vote
+      - name: Desplegar Vote 
         run: railway up --service vote-app --detach
 
       - name: Desplegar Result
