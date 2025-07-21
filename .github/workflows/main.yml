@@ -99,10 +99,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Instalar Railway CLI
-        run: npm install -g @railway/cli
+        run: curl -sSL https://railway.app/install.sh | sh
 
-      - name: Exportar Railway API Token
-        run: echo "RAILWAY_API_TOKEN=${{ secrets.RAILWAY_API_TOKEN }}" >> $GITHUB_ENV
+      - name: Login en Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway login
 
-      - name: Desplegar servicios en Railway
-        run: railway up --detach
+      - name: Desplegar en Railway usando project ID
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+        run: |
+          railway use $RAILWAY_PROJECT_ID
+          railway up --detach
