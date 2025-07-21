@@ -89,3 +89,23 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/worker-app:latest ./worker
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/worker-app:latest
+
+  deploy-to-railway:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Instalar Railway CLI
+        run: curl -sSL https://railway.app/install.sh | sh
+
+      - name: Login Railway con token
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway login --apiKey $RAILWAY_TOKEN
+
+      - name: Desplegar servicios en Railway
+        run: |
+          railway up --detach
