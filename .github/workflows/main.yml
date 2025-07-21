@@ -37,6 +37,17 @@ jobs:
           cd vote
           pytest test_app.py
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Ejecutar tests unitarios result
+        run: |
+          cd result
+          npm install
+          npm test
+
 
       - name: Login DockerHub
         uses: docker/login-action@v3
