@@ -90,6 +90,7 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/worker-app:latest ./worker
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/worker-app:latest
 
+
   deploy-to-railway:
     needs: build-and-push
     runs-on: ubuntu-latest
@@ -103,10 +104,8 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Linkear proyecto Railway
-        run: |
-          railway login
-          railway link $RAILWAY_PROJECT_ID
+      - name: Linkear proyecto Railway automáticamente
+        run: railway link $RAILWAY_PROJECT_ID
 
       - name: Desplegar Vote
         run: railway up --service vote-app --detach
