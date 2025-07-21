@@ -23,6 +23,8 @@ services:
     networks:
       - front-tier
       - back-tier
+    environment:
+      - REDIS_HOST=redis
 
   result:
     build: ./result
