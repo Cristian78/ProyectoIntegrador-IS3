@@ -49,6 +49,25 @@ jobs:
           npm test
 
 
+      - name: Instalar dependencias CodeceptJS
+        run: npm ci
+
+      - name: Levantar la app con Docker Compose
+        run: docker-compose up -d
+
+      - name: Esperar que Vote esté disponible
+        run: |
+          echo "Esperando a que Vote esté disponible en http://localhost:8080..."
+          sleep 10
+          curl --retry 10 --retry-delay 5 --retry-connrefused http://localhost:8080 || exit 1
+
+      - name: Ejecutar tests E2E con CodeceptJS
+        run: npx codeceptjs run --steps
+
+      - name: Apagar contenedores
+        run: docker-compose down
+
+
       - name: Login DockerHub
         uses: docker/login-action@v3
         with:
