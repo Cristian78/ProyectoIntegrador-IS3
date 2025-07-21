@@ -93,25 +93,26 @@ jobs:
   deploy-to-railway:
     needs: build-and-push
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/railwayapp/cli:latest
+
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
     steps:
-      - name: Checkout del código
+      - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Instalar Railway CLI
-        run: curl -sSL https://railway.app/install.sh | sh
+      - name: Linkear proyecto Railway
+        run: |
+          railway login
+          railway link $RAILWAY_PROJECT_ID
 
-      - name: Desplegar Vote en Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Desplegar Vote
         run: railway up --service vote-app --detach
 
-      - name: Desplegar Result en Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Desplegar Result
         run: railway up --service result-app --detach
 
-      - name: Desplegar Worker en Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway up --service worker-app --detach 
+      - name: Desplegar Worker
+        run: railway up --service worker-app --detach
