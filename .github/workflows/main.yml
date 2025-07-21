@@ -101,8 +101,17 @@ jobs:
       - name: Instalar Railway CLI
         run: curl -sSL https://railway.app/install.sh | sh
 
-      - name: Desplegar en Railway
+      - name: Desplegar Vote en Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          railway up --detach 
+        run: railway up --service vote-app --detach
+
+      - name: Desplegar Result en Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service result-app --detach
+
+      - name: Desplegar Worker en Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service worker-app --detach 
