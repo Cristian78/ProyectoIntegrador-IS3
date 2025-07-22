@@ -24,7 +24,7 @@ services:
       - front-tier
       - back-tier
     environment:
-      - REDIS_HOST=redis
+      - REDIS_URL=redis://redis:6379
 
   result:
     build: ./result
