@@ -54,8 +54,6 @@ jobs:
 
       - name: Levantar la app con Docker Compose
         run: docker compose up -d
-        env:
-          REDIS_URL: redis
 
       - name: Esperar que Vote esté disponible
         run: |
