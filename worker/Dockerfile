@@ -20,6 +20,7 @@ RUN dotnet publish -c release -o /app --self-contained false -r linux-x64 --no-r
 
 # app image
 FROM mcr.microsoft.com/dotnet/runtime:6.0
+RUN apt-get update && apt-get install -y libicu66 && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=build /app .
 ENTRYPOINT ["dotnet", "Worker.dll"]
