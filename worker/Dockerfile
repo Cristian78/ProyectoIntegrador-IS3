@@ -9,20 +9,17 @@
 
 # build compiles the program for the builder's local platform
 FROM --platform=${BUILDPLATFORM} mcr.microsoft.com/dotnet/sdk:6.0 AS build
-ARG TARGETPLATFORM
-ARG TARGETARCH
-ARG BUILDPLATFORM
-RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
+
 
 WORKDIR /source
 COPY *.csproj .
-RUN dotnet restore
+RUN dotnet restore -r linux-x64
 
 COPY . .
-RUN dotnet publish -c release -o /app --self-contained false --no-restore -r linux-x64
+RUN dotnet publish -c release -o /app --self-contained false -r linux-x64 --no-restore 
 
 # app image
-FROM mcr.microsoft.com/dotnet/runtime:7.0
+FROM mcr.microsoft.com/dotnet/runtime:6.0
 WORKDIR /app
 COPY --from=build /app .
 ENTRYPOINT ["dotnet", "Worker.dll"]
