@@ -54,6 +54,7 @@ jobs:
 
       - name: Levantar la app con Docker Compose
         run: docker compose up -d
+        
 
       - name: Esperar que Vote esté disponible
         run: |
